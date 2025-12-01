@@ -1,0 +1,43 @@
+
+{
+    "Settings_Info_Title": "Settings", 
+    "Settings_Info_Text": "Hier kannst du einstellen, über welche Dinge du benachrichtigt werden möchtest:\n\n__\"**Morgens**\"__ sorgt dafür, dass du an jedem Tag (6:30 Uhr), an dem du eine Vertretung hast, eine Ping-Nachricht erhältst.\n\n__\"**Abends**\"__ sorgt dafür, dass du an jedem Tag (18:30 Uhr), wenn du am folgenden Tag eine Vertretung hast, eine Ping-Nachricht erhältst.\n\n__\"**Updates**\"__ sorgt dafür, dass du unter <#1199786959804055633> eine Ping-Benachrichtigung erhältst, wenn es ein Update zum Bot gibt.\n\n-# Jede dieser Einstellungen kannst du jederzeit ändern.",
+    "Settings_Response_Morgen_Down": "Du bekommst jetzt __keine__ Ping-Benachrichtigungen mehr, für Vertretungen deiner Klasse am **Morgen**!",
+    "Settings_Response_Morgen_Up": "Du bekommst jetzt Ping-Benachrichtigungen, für Vertretungen deiner Klasse am **Morgen**!",
+    "Settings_Response_Abend_Down": "Du bekommst jetzt __keine__ Ping-Benachrichtigungen mehr, für Vertretungen deiner Klasse am **Abend**!",
+    "Settings_Response_Abend_Up": "Du bekommst jetzt Ping-Benachrichtigungen, für Vertretungen deiner Klasse am **Abend**!",
+    "Settings_Response_Updates_Down": "Du bekommst jetzt __keine__ Ping-Benachrichtigungen mehr, für **Updates**!",
+    "Settings_Response_Updates_Up": "Du bekommst jetzt Ping-Benachrichtigungen, für **Updates**!",
+
+    "Error_Message_1": "Es ist ein Fehler aufgetreten! Bitte überprüfe dein input und/oder versuche es später erneut, sollte dieser Fehler bestehen bleiben, melde dich bitte unter <#1280754195644940288>. (Muster 1 nicht gefunden.)",
+    "Error_Message_2": "Es ist ein Fehler aufgetreten! Bitte überprüfe dein input und/oder versuche es später erneut, sollte dieser Fehler bestehen bleiben, melde dich bitte unter <#1280754195644940288>. (Muster 2 nicht gefunden.)", 
+    "Error_No_2D_Array": "Der konvertierte Wert ist kein 2D-Array.",
+    "Error_Converting_String": "Fehler beim Konvertieren des Strings: {error}",
+    "Error_Entered_Class_Not_Found": "Die Klasse: '{tokens}' wurde nicht gefunden. Bitte überprüfe die Eingabe.",
+    "Error_Entered_Day_Not_Found": "Der Tag: '{tokens}' wurde nicht gefunden. Bitte überprüfe die Eingabe.",
+    "Error_No_Message_Provided": "Original message is None, cannot proceed.",
+
+    "Change_Lookup_Log": "Looking up changes in the schedule for: {clas}, day={day}.",
+
+    "Kick_Reason": "Du wurdes leider nicht zugelassen, melde dich doch bitte nochmla bei der Person, die dich eingeladen hat.",
+    "User_Allowed": "wurde erfolgreich zugelassen!",
+    "User_Denied": "wurde erfolgreich abgelehnt!",
+
+    "Update_Description": "Aktualisiert die Texte und den Vertretungsplan.",
+    "Update_Dry_Description": "Führe einen Trockenlauf durch.",
+    "Update_Dailys_Beginn_Response": "Die täglichen Vertretungspläne werden jetzt aktualisiert! -> Trockenlauf: {dry_run}",
+    "Update_Dailys_End_Response": "Die täglichen Vertretungspläne wurden aktualisiert! -> Trockenlauf: {dry_run}",
+    
+    "VP_Description": "Zeigt den Vertretungsplan für eine bestimmte Klasse und einen bestimmten Tag an.",
+    "VP_Tag_Description": "Eine ganze ganze Zahl.",
+    "VP_Klasse_Description": "Die Klasse, z.B. 11n",
+
+    "Loading_Message": "Loading ...",
+
+    "Join_New_Ping": "New Join <@&1215003629526847578>",
+    "Join_New": "{member} joined the server",
+
+    "Fixed_Empty_Fields": "Fixed empty fields in update result array: \n {update_result_array}",
+
+    "Disconnected_Log": "Disconnected from Discord, but not trying to recreate buttons."
+}
