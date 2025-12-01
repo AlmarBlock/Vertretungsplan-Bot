@@ -10,7 +10,7 @@
   "LONG_DELETE_TIME": 43200,
   "MEDIUM_DELETE_TIME": 60,
   "SHORT_DELETE_TIME": 20,
-  "PURGE_LIMIT": 10,
+  "PURGE_LIMIT": 20,
 
   "DEFULT_CLAS": "1a",
   "DAY_NAMES": ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"],
