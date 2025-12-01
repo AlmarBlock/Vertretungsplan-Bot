@@ -68,7 +68,9 @@ log("Configuration updated successfully.")
 
 
 #SECTION  ---- Variables ---- #
-texts = {}
+TEXTS_PATH = os.path.join(os.path.dirname(__file__), "config/texte.json")
+with open(TEXTS_PATH, 'r', encoding='utf-8') as file:
+    texts = json.load(file)
 clas_texts = [""] * len(CLASSES)
 #!SECTION  ---- Variables ---- #
 
@@ -263,6 +265,7 @@ class MyClient(discord.Client):
     #SECTION ---- On Ready ----- #
     async def on_ready(self):
         global texts
+        await _reload_texts()
         text = str(discord.version_info)
         pattern = r"major=(\d+), minor=(\d+), micro=(\d+)"
         matches = re.search(pattern, text)  
@@ -383,7 +386,7 @@ class MyClient(discord.Client):
                 await _send_respond_message(original_message=message, day=tokens[1])  
             else:
                 await _send_respond_message(original_message=message, day=tokens[1], clas=tokens[2])
-            avatar_url = _get_avatar_pic_url(message)
+            avatar_url = await _get_avatar_pic_url(message)
             async with aiohttp.ClientSession() as session:
                 webhook = Webhook.from_url(COMMAND_USE_LOG_URL, session=session)
                 await webhook.send(message.content.lower(), username=message.author.display_name, avatar_url=avatar_url)
@@ -451,4 +454,6 @@ async def vp(interaction: discord.Interaction, tag: str, klasse: str):
 
 
 #!SECTION ---- Discord Bot ---- #
-client.run(BOT_TOKEN)
+
+if __name__ == "__main__":
+    client.run(BOT_TOKEN)
