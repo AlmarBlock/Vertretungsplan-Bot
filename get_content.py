@@ -3,7 +3,7 @@ import os
 import re
 import json
 
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), "config/config.json")
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), "config.json")
 if os.path.exists(CONFIG_PATH):
     with open(CONFIG_PATH, 'r', encoding='utf-8') as CONFIG:
         CONFIG_FILE = json.load(CONFIG)
@@ -210,16 +210,16 @@ def _day(day, clas):
 
 
     if return_value == '':
-        return_value = 'Keine Vertretungen für '+ searched_day + ', den ' + searched_date + ' gefunden.'
+        return_value = '**Keine Vertretungen für '+ searched_day + ', den ' + searched_date + ' gefunden.**'
     else:
         if not header:
             return_value = re.sub(" {2,}", " | ", return_value)
             lines = return_value.split('\n')
             lines = [line.lstrip() for line in lines]
-            return_value = '\n\n'.join(lines)
-            return_value = "Vertretungen für "+ searched_day +", den " + searched_date + ":\n" + return_value
+            return_value = '\n'.join(lines)
+            return_value = "**Vertretungen für "+ searched_day +", den " + searched_date + ":**\n" + return_value + "\n"
         else:
             matches1_content = re.sub(r'^[| ]+$\n?', '', matches1_content, flags=re.MULTILINE)
-            return_value = "Wetere Informationen zu "+ searched_day +", den " + searched_date + ":" + return_value + "\n"
+            return_value = "**Wetere Informationen zu "+ searched_day +", den " + searched_date + ":**\n" + return_value + "\n"
             
     return return_value

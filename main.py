@@ -11,13 +11,19 @@ from discord import Webhook
 from discord.ui import Button, View
 from get_content import _day
 
-DATE_TIME_FORMAT = "%d.%m.%Y %H:%M:%S"
+DATE_TIME_FORMAT = "%d.%m.%Y %H:%M:%S" # Defult value; needed by log function
 
 #SECTION  ---- Logging Function ---- #
 def log(message):
     print(time.strftime(DATE_TIME_FORMAT), message)
+    with open('logs.log', 'a') as file:
+        file.write(time.strftime(DATE_TIME_FORMAT) + " " + message + '\n')
+        file.close()
 async def _log(message):
     print(time.strftime(DATE_TIME_FORMAT), message)
+    with open('logs.log', 'a') as file:
+        file.write(time.strftime(DATE_TIME_FORMAT) + " " + message + '\n')
+        file.close()
 #!SECTION  ---- Logging Function ---- #
 
 
@@ -38,7 +44,7 @@ BOT_TOKEN = CONFIG_FILE.get("BOT_TOKEN", os.getenv("BOT_TOKEN", ""))
 LONG_DELETE_TIME = CONFIG_FILE.get("LONG_DELETE_TIME", 43200)
 MEDIUM_DELETE_TIME = CONFIG_FILE.get("MEDIUM_DELETE_TIME", 60)
 SHORT_DELETE_TIME = CONFIG_FILE.get("SHORT_DELETE_TIME", 20)
-PURGE_LIMIT = CONFIG_FILE.get("PURGE_LIMIT", 20)
+PURGE_LIMIT = CONFIG_FILE.get("PURGE_LIMIT", 10)
 
 DEFULT_CLAS = CONFIG_FILE.get("DEFULT_CLAS", "11n")
 DAY_NAMES = CONFIG_FILE.get("DAY_NAMES", ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"])
@@ -51,7 +57,7 @@ COMMAND_OUTPUT_LOG_URL = CONFIG_FILE.get("COMMAND_OUTPUT_LOG_URL", "")
 JOIN_WEBHOOK_URL = CONFIG_FILE.get("JOIN_WEBHOOK_URL", "")
 COMMAND_USE_LOG_URL = CONFIG_FILE.get("COMMAND_USE_LOG_URL", "")
 
-RESULT_FILE_PATH = CONFIG_FILE.get("RESULT_FILE_PATH", "./results.txt")
+RESULT_FILE_PATH = CONFIG_FILE.get("RESULT_FILE_PATH", "/mount/results.txt")
 
 SETTINGS_CHANNEL_ID = CONFIG_FILE.get("SETTINGS_CHANNEL_ID")
 START_MESSAGE_CHANNEL_ID = CONFIG_FILE.get("START_MESSAGE_CHANNEL_ID")
@@ -68,23 +74,25 @@ log("Configuration updated successfully.")
 
 
 #SECTION  ---- Variables ---- #
-TEXTS_PATH = os.path.join(os.path.dirname(__file__), "config/texte.json")
-with open(TEXTS_PATH, 'r', encoding='utf-8') as file:
+global texts
+with open('config/texte.json', 'r', encoding='utf-8') as file:
     texts = json.load(file)
+
 clas_texts = [""] * len(CLASSES)
 #!SECTION  ---- Variables ---- #
 
 
 #SECTION  ---- Gloabl Functions ---- #
 async def _get_avatar_pic_url(message):
-    try:
-        source_url = 'https://discordlookup.mesalytic.moe/v1/user/'+str(message.author.id)
-        response = requests.get(source_url)
-        response_json = response.json()
-        avatar_url = response_json['avatar']['link']
-    except discord.NotFound:
-        print(f"User with ID {message.author.id} not found.")
-        avatar_url = LOGO_URL
+    #try:
+        #source_url = 'https://discordlookup.mesalytic.moe/v1/user/'+str(message.author.id)
+        #response = requests.get(source_url)
+        #response_json = response.json()
+        #avatar_url = response_json['avatar']['link']
+    #except discord.NotFound:
+    print(f"User with ID {message.author.id} not found.")
+    avatar_url = LOGO_URL
+    log(str(avatar_url))
     return avatar_url
 
 async def _clear_class_channel():
@@ -94,8 +102,7 @@ async def _clear_class_channel():
 
 async def _reload_texts():
     global texts
-    TEXTS_PATH = os.path.join(os.path.dirname(__file__), "config/texte.json")
-    with open(TEXTS_PATH, 'r', encoding='utf-8') as file:
+    with open('config/texte.json', 'r', encoding='utf-8') as file:
         texts = json.load(file)
 
 async def _get_class_id_by_name(clas_name):
@@ -234,7 +241,7 @@ async def _send_daily_update_message(dry_run=False):
     for i in range(len(update_result_array)-1): 
         for clas in CLASSES:
             class_name = clas[0][0] + clas[0][1]
-            text_variable = ""
+            text_variable = clas_texts[await _get_class_id_by_name(class_name)]
             if re.match(fr"{clas[0][0]}.*?{clas[0][1]}", update_result_array[i][0]):
                 if text_variable == "":
                     text_variable = "Klasse | Std. | Lehrer | Fach | statt | Raum | Art | Bemerkung"
@@ -254,6 +261,7 @@ async def _send_daily_update_message(dry_run=False):
                 ping_text = "\n|| <@&1287841414268325988> ||"
             await channel.send(content=text_variable + ping_text, delete_after=LONG_DELETE_TIME)
     clas_texts = [""] * len(CLASSES)
+    await _log(texts.get("Cleanup_Complete", "").format(clas_texts=str(clas_texts)))
 #!SECTION ---- Daily Update Message ---- #
 
 #!SECTION  ---- Functions ---- #
@@ -265,7 +273,6 @@ class MyClient(discord.Client):
     #SECTION ---- On Ready ----- #
     async def on_ready(self):
         global texts
-        await _reload_texts()
         text = str(discord.version_info)
         pattern = r"major=(\d+), minor=(\d+), micro=(\d+)"
         matches = re.search(pattern, text)  
@@ -371,7 +378,7 @@ class MyClient(discord.Client):
     #SECTION ---- Message Handling ---- #
     async def on_message(self, message):
         tokens = message.content.lower().strip().split()
-        if message.author == self.user:
+        if (message.author == self.user or message.author.bot) and not message.channel.id == START_MESSAGE_CHANNEL_ID:
             return
         elif message.channel.id == VERTRETUNGS_CHANNEL_ID:
             await message.channel.purge(limit=1, check=lambda m: m.id == message.id)
@@ -381,7 +388,7 @@ class MyClient(discord.Client):
         if tokens[0] == "ping":
             await message.channel.send("pong", delete_after=SHORT_DELETE_TIME)
             await _log("Responded to ping command.")
-        elif tokens[0] == "vp" :
+        elif tokens[0] == "vp" and message.channel.id == VERTRETUNGS_CHANNEL_ID:
             if tokens.__len__() < 3:
                 await _send_respond_message(original_message=message, day=tokens[1])  
             else:
