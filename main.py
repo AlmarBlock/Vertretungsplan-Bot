@@ -4,12 +4,12 @@ import asyncio
 import json
 import ast
 import re
-import requests
 import aiohttp
 import time
 from discord import Webhook
 from discord.ui import Button, View
 from get_content import _day
+from utilities import _write_default_config
 
 DATE_TIME_FORMAT = "%d.%m.%Y %H:%M:%S" # Defult value; needed by log function
 
@@ -46,7 +46,7 @@ MEDIUM_DELETE_TIME = CONFIG_FILE.get("MEDIUM_DELETE_TIME", 60)
 SHORT_DELETE_TIME = CONFIG_FILE.get("SHORT_DELETE_TIME", 20)
 PURGE_LIMIT = CONFIG_FILE.get("PURGE_LIMIT", 10)
 
-DEFULT_CLAS = CONFIG_FILE.get("DEFULT_CLAS", "11n")
+DEFULT_CLAS = CONFIG_FILE.get("DEFULT_CLAS", "5a")
 DAY_NAMES = CONFIG_FILE.get("DAY_NAMES", ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"])
 DATE_FORMAT = CONFIG_FILE.get("DATE_FORMAT", "%d.%m.%Y")
 TIME_FORMAT = CONFIG_FILE.get("TIME_FORMAT", "%H:%M")
@@ -70,6 +70,12 @@ ROLE_ID_UPDATES = CONFIG_FILE.get("ROLE_ID_UPDATES")
 ROLE_ID_STUDENT = CONFIG_FILE.get("ROLE_ID_STUDENT")
 
 log("Configuration updated successfully.")
+
+if CONFIG_FILE == {}:
+    log("Configuration file is empty. Writing default configuration to config/config.json.")
+    _write_default_config()
+    exit(1)
+
 #!SECTION  ---- Configuration ---- #
 
 
