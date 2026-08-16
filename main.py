@@ -90,15 +90,14 @@ clas_texts = [""] * len(CLASSES)
 
 #SECTION  ---- Gloabl Functions ---- #
 async def _get_avatar_pic_url(message):
-    #try:
-        #source_url = 'https://discordlookup.mesalytic.moe/v1/user/'+str(message.author.id)
-        #response = requests.get(source_url)
-        #response_json = response.json()
-        #avatar_url = response_json['avatar']['link']
-    #except discord.NotFound:
-    print(f"User with ID {message.author.id} not found.")
-    avatar_url = LOGO_URL
-    log(str(avatar_url))
+    try:
+        avatar_url = message.author.avatar.url
+    except AttributeError as e:
+        log(f"Error retrieving avatar URL for user {message.author.id}: {e}")
+        avatar_url = LOGO_URL
+    except Exception as e:
+        log(f"Error retrieving avatar URL for user {message.author.id}: {e}")
+        avatar_url = LOGO_URL
     return avatar_url
 
 async def _clear_class_channel():
