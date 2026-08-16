@@ -3,7 +3,7 @@ import os
 import re
 import json
 
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), "config.json")
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), "config/config.json")
 if os.path.exists(CONFIG_PATH):
     with open(CONFIG_PATH, 'r', encoding='utf-8') as CONFIG:
         CONFIG_FILE = json.load(CONFIG)
@@ -53,7 +53,7 @@ def _text_formatting(text_string, clas):
     lines = text_string.split('\n')
     new_string = ''
 
-    filter1 = re.split(r'(\d+)', clas)[1]
+    filter1 = re.split(r'(\d+)', clas)[0] + re.split(r'(\d+)', clas)[1]
     filter2 = re.split(r'(\d+)', clas)[2]
     filter = filter1 + "[A-Za-z]*?" + filter2
 
@@ -94,7 +94,7 @@ def _add_pipe_prefix(text):
 def _day(day, clas):
     if clas == "header":
         header = True
-        clas = "11n"
+        clas = "5a"
     else:
         header = False
     source_url = UNTIS_URL+str(day)+'.htm'
@@ -113,7 +113,6 @@ def _day(day, clas):
         funktion_return = _text_formatting(response.text, clas)
         searched_day = funktion_return[1]
         searched_date = funktion_return[2]
-    if header:
         pattern = re.compile(r'<table class="info"[^>]*>(.*?)</table>', re.DOTALL)
         matches1 = pattern.findall(source_html)
         if matches1:
@@ -180,7 +179,7 @@ def _day(day, clas):
             return_value = texts.get('Error_Message_1','')
             return return_value
 
-    else:
+    else: #If not header
         pattern = re.compile(r'<table class="mon_list"[^>]*>(.*?)</table>', re.DOTALL)
         matches2 = pattern.findall(source_html)
         if matches2:
