@@ -379,6 +379,27 @@ class MyClient(discord.Client):
         await channel.send(view=view)
     #!SECTION ---- Button - Settings ----- #
 
+    #SECTION ---- Button - Link ----- #
+    async def send_link_button(self, inter):        
+        await _reload_texts()
+        normal_button = Button(label=texts.get('Link_Button_Normal_Name', 'Normal'), style=discord.ButtonStyle.link, url=CONFIG_FILE.get("UNTIS_URL_NORMAL", ""))
+        heute_button = Button(label=texts.get('Link_Button_Heute_Name', 'Heute'), style=discord.ButtonStyle.link, url=CONFIG_FILE.get("UNTIS_URL_HEUTE", ""))
+        lehrer_button = Button(label=texts.get('Link_Button_Lehrer_Name', 'Lehrer'), style=discord.ButtonStyle.link, url=CONFIG_FILE.get("UNTIS_URL_LEHRER", ""))
+                
+        view = View(timeout=5)  # Set timeout to 5 minutes
+        view.add_item(normal_button)
+        view.add_item(heute_button)
+        view.add_item(lehrer_button)
+        
+        Link_Info_Title = texts.get('Link_Info_Title', '')
+        Link_Info_Text = texts.get('Link_Info_Text', '')
+
+        color = discord.Color.from_rgb(255, 255, 0)
+        embed = discord.Embed(title=Link_Info_Title, description=Link_Info_Text, color=color)
+        
+        await inter.edit_original_response(embed=embed, view=view)
+    #!SECTION ---- Button - Link ----- #
+
 
     #SECTION ---- Message Handling ---- #
     async def on_message(self, message):
@@ -462,6 +483,13 @@ async def update(interaction: discord.Interaction, dry: bool = True):
 async def vp(interaction: discord.Interaction, tag: str, klasse: str):
     await interaction.response.send_message(texts.get("Loading_Message",""), delete_after=SHORT_DELETE_TIME, ephemeral=True)
     await _send_respond_message(day=tag, clas=klasse, original_message=interaction)
+
+@tree.command(name="link", description=texts.get("Link_Description",""))
+@discord.app_commands.describe()
+async def link(interaction: discord.Interaction):
+    # Wichtige Korrektur: response.defer() statt sofortige Antwort + späteres edit_message().
+    await interaction.response.defer(ephemeral=True)
+    await client.send_link_button(inter=interaction)
 #!SECTION ---- Slash Command Handling ---- #
 
 
