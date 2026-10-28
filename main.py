@@ -276,7 +276,7 @@ async def _send_daily_update_message(dry_run=False):
                         changes.append(i)
                 if changes:
                     ping_text = "\n|| <@&1287841332857147428> ||"
-                    delete_time = LONG_DELETE_TIME - 60*45 #45 minutes
+                    delete_time = LONG_DELETE_TIME - 60*75 #75 minutes
                     text_variable = "Klasse | Std. | Lehrer | Fach | statt | Raum | Art | Bemerkung"
                     for change in changes:
                         text_variable += "\n" + change
