@@ -260,11 +260,37 @@ async def _send_daily_update_message(dry_run=False):
             await _log(text_variable)
             if dry_run or update_result_array[len(update_result_array)-1][0] is None:
                 ping_text = ""
-            elif update_result_array[len(update_result_array)-1][0] == True:
+            elif update_result_array[len(update_result_array)-1][0] == 2:
+                # Source - https://stackoverflow.com/a/64086463
+                # Posted by Lina Blume, modified by community. See post 'Timeline' for change history
+                # Retrieved 2026-10-28, License - CC BY-SA 4.0
+
+                last_post = (await channel.history(limit=1).flatten())[0]
+                last_post_content = last_post.content.split("\n")
+                text_variable_content = text_variable.split("\n")
+
+                #SECTION - Finding differences between the last post and the new post - #
+                changes = []
+                for i in text_variable_content:
+                    if i not in last_post_content:
+                        changes.append(i)
+                if changes:
+                    ping_text = "\n|| <@&1287841332857147428> ||"
+                    delete_time = LONG_DELETE_TIME - 60*45 #45 minutes
+                    text_variable = "Klasse | Std. | Lehrer | Fach | statt | Raum | Art | Bemerkung"
+                    for change in changes:
+                        text_variable += "\n" + change
+                else:
+                    clas_texts = [""] * len(CLASSES)
+                    return
+                #!SECTION - Finding differences between the last post and the new post - #
+            elif update_result_array[len(update_result_array)-1][0] == 1:
                 ping_text = "\n|| <@&1287841332857147428> ||"
-            elif update_result_array[len(update_result_array)-1][0] == False:
+                delete_time = LONG_DELETE_TIME
+            elif update_result_array[len(update_result_array)-1][0] == 0:
                 ping_text = "\n|| <@&1287841414268325988> ||"
-            await channel.send(content=text_variable + ping_text, delete_after=LONG_DELETE_TIME)
+                delete_time = LONG_DELETE_TIME
+            await channel.send(content=text_variable + ping_text, delete_after=delete_time)
     clas_texts = [""] * len(CLASSES)
     await _log(texts.get("Cleanup_Complete", "").format(clas_texts=str(clas_texts)))
 #!SECTION ---- Daily Update Message ---- #
@@ -428,7 +454,7 @@ class MyClient(discord.Client):
             if tokens.__len__() > 1:
                 if tokens[1] == "-dry":
                     await message.channel.send(texts.get("Update_Dailys_Beginn_Response","").format(dry_run=True), delete_after=SHORT_DELETE_TIME)
-                await _send_daily_update_message(dry_run=True)
+                    await _send_daily_update_message(dry_run=True)
             await _send_daily_update_message()
     #!SECTION ---- Message Handling ---- #
 
