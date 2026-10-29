@@ -267,8 +267,8 @@ async def _send_daily_update_message(dry_run=False):
                 changes = []
                 last_posts = [message async for message in channel.history(limit=1)]
                 if last_posts:
-                    await _log(last_post)
                     last_post = last_posts[0]
+                    await _log(last_post)
                     last_post_content = last_post.content.split("\n")  
                     await _log(last_post_content)
                 else:
