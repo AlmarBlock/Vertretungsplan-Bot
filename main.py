@@ -270,6 +270,8 @@ async def _send_daily_update_message(dry_run=False):
                     last_post_content = last_post.content.split("\n")  
                     await _log(last_post_content)
                     text_variable_content = text_variable.split("\n")
+                else:
+                    last_post_content=[""]
 
                     #SECTION - Finding differences between the last post and the new post - #
                     for i in text_variable_content:
@@ -284,9 +286,6 @@ async def _send_daily_update_message(dry_run=False):
                         text_variable = "Klasse | Std. | Lehrer | Fach | statt | Raum | Art | Bemerkung"
                         for change in changes:
                            text_variable += "\n" + change
-                else:
-                    ping_text = ""
-                    text_variable = ""
                 #!SECTION - Finding differences between the last post and the new post - #
             elif update_result_array[len(update_result_array)-1][0] == 1:
                 ping_text = "\n|| <@&1287841332857147428> ||"
