@@ -268,9 +268,8 @@ async def _send_daily_update_message(dry_run=False):
                 last_posts = [message async for message in channel.history(limit=1)]
                 if last_posts:
                     last_post = last_posts[0]
-                    await _log(last_post)
                     last_post_content = last_post.content.split("\n")  
-                    await _log(last_post_content)
+                    #await _log(last_post_content)
                 else:
                     last_post_content=["Klasse | Std. | Lehrer | Fach | statt | Raum | Art | Bemerkung"]
                 
@@ -281,7 +280,7 @@ async def _send_daily_update_message(dry_run=False):
                     if i not in last_post_content:
                         changes.append(i)
                 
-                await _log(changes)
+                await _log("Changes: " + str(changes))
 
                 if changes:
                     ping_text = "\n|| <@&1287841332857147428> ||"
