@@ -297,7 +297,8 @@ async def _send_daily_update_message(dry_run=False):
                 ping_text = "\n|| <@&1287841332857147428> ||"
             elif update_result_array[len(update_result_array)-1][0] == 0:
                 ping_text = "\n|| <@&1287841414268325988> ||"
-            await channel.send(content=text_variable + ping_text, delete_after=delete_time)
+            if not text_variable == "" or not ping_text == "":
+                await channel.send(content=text_variable + ping_text, delete_after=delete_time)
     clas_texts = [""] * len(CLASSES)
     await _log(texts.get("Cleanup_Complete", "").format(clas_texts=str(clas_texts)))
 #!SECTION ---- Daily Update Message ---- #
