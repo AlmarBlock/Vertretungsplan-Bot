@@ -284,7 +284,7 @@ async def _send_daily_update_message(dry_run=False):
                         for change in changes:
                            text_variable += "\n" + change
                 else:
-                    clas_texts = [""] * len(CLASSES)
+                    ping_text = ""
                     text_variable = ""
                 #!SECTION - Finding differences between the last post and the new post - #
             elif update_result_array[len(update_result_array)-1][0] == 1:
