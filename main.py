@@ -261,12 +261,8 @@ async def _send_daily_update_message(dry_run=False):
             if dry_run or update_result_array[len(update_result_array)-1][0] is None:
                 ping_text = ""
             elif update_result_array[len(update_result_array)-1][0] == 2:
-                # Source - https://stackoverflow.com/a/64086463
-                # Posted by Lina Blume, modified by community. See post 'Timeline' for change history
-                # Retrieved 2026-10-28, License - CC BY-SA 4.0
-
                 changes = []
-                last_posts = await channel.history(limit=1).flatten()
+                last_posts = [message async for message in channel.history(limit=1)]
                 await _log(last_post)
                 if last_posts:
                     last_post = last_posts[0]
