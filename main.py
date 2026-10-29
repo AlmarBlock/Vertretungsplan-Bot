@@ -253,6 +253,7 @@ async def _send_daily_update_message(dry_run=False):
                 text_variable += "\n" + update_result_array[i][0] + " | " + update_result_array[i][1] + " | " + update_result_array[i][2] + " | " + update_result_array[i][3] + " | " + update_result_array[i][4] + " | " + update_result_array[i][5] + " | " + update_result_array[i][6] + " | " + update_result_array[i][7]
                 clas_texts[await _get_class_id_by_name(class_name)] = text_variable
     for clas in CLASSES:  
+        delete_time = LONG_DELETE_TIME
         class_name = clas[0][0] + clas[0][1]
         channel = client.get_channel(clas[1])
         text_variable = clas_texts[await _get_class_id_by_name(class_name)]
@@ -289,10 +290,8 @@ async def _send_daily_update_message(dry_run=False):
                 #!SECTION - Finding differences between the last post and the new post - #
             elif update_result_array[len(update_result_array)-1][0] == 1:
                 ping_text = "\n|| <@&1287841332857147428> ||"
-                delete_time = LONG_DELETE_TIME
             elif update_result_array[len(update_result_array)-1][0] == 0:
                 ping_text = "\n|| <@&1287841414268325988> ||"
-                delete_time = LONG_DELETE_TIME
             await channel.send(content=text_variable + ping_text, delete_after=delete_time)
     clas_texts = [""] * len(CLASSES)
     await _log(texts.get("Cleanup_Complete", "").format(clas_texts=str(clas_texts)))
