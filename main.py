@@ -273,19 +273,19 @@ async def _send_daily_update_message(dry_run=False):
                 else:
                     last_post_content=[""]
 
-                    #SECTION - Finding differences between the last post and the new post - #
-                    for i in text_variable_content:
-                        if i not in last_post_content:
-                            changes.append(i)
+                #SECTION - Finding differences between the last post and the new post - #
+                for i in text_variable_content:
+                    if i not in last_post_content:
+                        changes.append(i)
                 
-                    await _log(changes)
+                await _log(changes)
 
-                    if changes:
-                        ping_text = "\n|| <@&1287841332857147428> ||"
-                        delete_time = LONG_DELETE_TIME - 60*75 #75 minutes
-                        text_variable = "Klasse | Std. | Lehrer | Fach | statt | Raum | Art | Bemerkung"
-                        for change in changes:
-                           text_variable += "\n" + change
+                if changes:
+                    ping_text = "\n|| <@&1287841332857147428> ||"
+                    delete_time = LONG_DELETE_TIME - 60*75 #75 minutes
+                    text_variable = "Klasse | Std. | Lehrer | Fach | statt | Raum | Art | Bemerkung"
+                    for change in changes:
+                       text_variable += "\n" + change
                 #!SECTION - Finding differences between the last post and the new post - #
             elif update_result_array[len(update_result_array)-1][0] == 1:
                 ping_text = "\n|| <@&1287841332857147428> ||"
