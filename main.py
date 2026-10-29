@@ -265,10 +265,11 @@ async def _send_daily_update_message(dry_run=False):
                 ping_text = ""
             elif update_result_array[len(update_result_array)-1][0] == 2:
                 changes = []
-                last_posts = [message async for message in channel.history(limit=1)]
+                last_posts = [message async for message in channel.history(limit=10)]
                 if last_posts:
-                    last_post = last_posts[0]
-                    last_post_content = last_post.content.split("\n")  
+                    last_post_content = ""
+                    for i in last_posts:
+                        last_post_content = last_post_content + i.content.split("\n")  
                     #await _log(last_post_content)
                 else:
                     last_post_content=["Klasse | Std. | Lehrer | Fach | statt | Raum | Art | Bemerkung"]
