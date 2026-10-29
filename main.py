@@ -272,7 +272,7 @@ async def _send_daily_update_message(dry_run=False):
                     last_post_content = last_post.content.split("\n")  
                     await _log(last_post_content)
                 else:
-                    last_post_content=[""]
+                    last_post_content=["Klasse | Std. | Lehrer | Fach | statt | Raum | Art | Bemerkung"]
                 
                 text_variable_content = text_variable.split("\n")
 
