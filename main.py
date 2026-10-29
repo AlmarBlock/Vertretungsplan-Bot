@@ -15,11 +15,13 @@ DATE_TIME_FORMAT = "%d.%m.%Y %H:%M:%S" # Defult value; needed by log function
 
 #SECTION  ---- Logging Function ---- #
 def log(message):
+    message = str(message)
     print(time.strftime(DATE_TIME_FORMAT), message)
     with open('logs.log', 'a') as file:
         file.write(time.strftime(DATE_TIME_FORMAT) + " " + message + '\n')
         file.close()
 async def _log(message):
+    message = str(message)
     print(time.strftime(DATE_TIME_FORMAT), message)
     with open('logs.log', 'a') as file:
         file.write(time.strftime(DATE_TIME_FORMAT) + " " + message + '\n')
