@@ -269,9 +269,10 @@ async def _send_daily_update_message(dry_run=False):
                     last_post = last_posts[0]
                     last_post_content = last_post.content.split("\n")  
                     await _log(last_post_content)
-                    text_variable_content = text_variable.split("\n")
                 else:
                     last_post_content=[""]
+                
+                text_variable_content = text_variable.split("\n")
 
                 #SECTION - Finding differences between the last post and the new post - #
                 for i in text_variable_content:
