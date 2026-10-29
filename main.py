@@ -289,6 +289,9 @@ async def _send_daily_update_message(dry_run=False):
                     text_variable = "Klasse | Std. | Lehrer | Fach | statt | Raum | Art | Bemerkung"
                     for change in changes:
                        text_variable += "\n" + change
+                else: 
+                    ping_text = ""
+                    text_variable = ""
                 #!SECTION - Finding differences between the last post and the new post - #
             elif update_result_array[len(update_result_array)-1][0] == 1:
                 ping_text = "\n|| <@&1287841332857147428> ||"
