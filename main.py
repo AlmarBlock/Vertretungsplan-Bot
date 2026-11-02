@@ -269,16 +269,17 @@ async def _send_daily_update_message(dry_run=False):
                 if last_posts:
                     last_post_content = ""
                     for i in last_posts:
-                        last_post_content = last_post_content + i.content.split("\n")  
+                        last_post_content = last_post_content + "\n" + i.content
                     #await _log(last_post_content)
                 else:
                     last_post_content=["Klasse | Std. | Lehrer | Fach | statt | Raum | Art | Bemerkung"]
                 
                 text_variable_content = text_variable.split("\n")
+                last_posts_array = last_post_content.split("\n")
 
                 #SECTION - Finding differences between the last post and the new post - #
                 for i in text_variable_content:
-                    if i not in last_post_content:
+                    if i not in last_posts_array:
                         changes.append(i)
                 
                 await _log("Changes: " + str(changes))
