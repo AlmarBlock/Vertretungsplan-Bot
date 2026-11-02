@@ -260,7 +260,7 @@ async def _send_daily_update_message(dry_run=False):
         channel = client.get_channel(clas[1])
         text_variable = clas_texts[await _get_class_id_by_name(class_name)]
         if not text_variable == "":
-            await _log(text_variable)
+            #await _log(text_variable)
             if dry_run or update_result_array[len(update_result_array)-1][0] is None:
                 ping_text = ""
             elif update_result_array[len(update_result_array)-1][0] == 2:
