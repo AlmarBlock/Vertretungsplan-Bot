@@ -282,7 +282,7 @@ async def _send_daily_update_message(dry_run=False):
                     if i not in last_posts_array:
                         changes.append(i)
                 
-                await _log("Changes: " + str(changes))
+                await _log("Changes for " + str(class_name) + ": " + str(changes))
 
                 if changes:
                     ping_text = "\n|| <@&1287841332857147428> ||"
