@@ -35,5 +35,6 @@
     "Join_New_Ping": "New Join <@&1215003629526847578>",
     "Join_New": "{member} joined the server",
     "Fixed_Empty_Fields": "Fixed empty fields in update result array: \n {update_result_array}",
-    "Disconnected_Log": "Disconnected from Discord, but not trying to recreate buttons."
+    "Disconnected_Log": "Disconnected from Discord, but not trying to recreate buttons.",
+    "Cleanup_Complete": "Updates vollständig gesendet."
 }
